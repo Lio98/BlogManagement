@@ -3,19 +3,28 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Serilog.Core;
 
 namespace BlogManagement.Utility
 {
     public class BlogActionFilter : IActionFilter
     {
-        public void OnActionExecuted(ActionExecutedContext context)
+        private ILogger<BlogActionFilter> _logger = null;
+
+        public BlogActionFilter(ILogger<BlogActionFilter> logger)
         {
-            throw new NotImplementedException();
+            this._logger = logger;
         }
 
         public void OnActionExecuting(ActionExecutingContext context)
         {
-            throw new NotImplementedException();
+            _logger.LogInformation("start");
+        }
+
+        public void OnActionExecuted(ActionExecutedContext context)
+        {
+            _logger.LogInformation("end");
         }
     }
 }

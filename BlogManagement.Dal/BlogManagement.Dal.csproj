@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FreeSql.Provider.SqlServer" Version="2.5.100" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BlogManagement.Model\BlogManagement.Model.csproj" />
+    <ProjectReference Include="..\BlogManager.Core\BlogManager.Core.csproj" />
+  </ItemGroup>
+
+</Project>
