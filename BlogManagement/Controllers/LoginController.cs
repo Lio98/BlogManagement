@@ -14,6 +14,9 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace BlogManagement.Controllers
 {
+    /// <summary>
+    /// 登录
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
@@ -28,18 +31,33 @@ namespace BlogManagement.Controllers
             this._jwtTokenOptions = jwtTokenOptions;
         }
         
+        /// <summary>
+        /// 用户登陆
+        /// </summary>
+        /// <param name="account">用户名</param>
+        /// <param name="password">密码</param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("login")]
         public IActionResult Login(string account, string password) 
         {
-            var info = JWTTokenHelper.AuthorizeToken(123, "XMN", this._jwtTokenOptions);
+            var token = JWTTokenHelper.JwtEncrypt(new TokenModelJwt() { UserId=123,Level=""} ,this._jwtTokenOptions);
             return new JsonResult(JsonConvert.SerializeObject(new
             {
                 StatusCode = 200,
                 Status = ReturnStatus.Success,
-                Data=JsonConvert.SerializeObject(info),
+                Token= token,
                 Msg = "登录成功"
             }));
+        }
+
+        /// <summary>
+        /// 测试
+        /// </summary>
+        [HttpGet("Test")]
+        public IActionResult Test() 
+        {
+            return Ok("success");
         }
     }
 }

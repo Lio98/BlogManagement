@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Serilog.Core;
+using Newtonsoft.Json;
 
 namespace BlogManagement.Utility
 {
@@ -19,12 +20,14 @@ namespace BlogManagement.Utility
 
         public void OnActionExecuting(ActionExecutingContext context)
         {
-            _logger.LogInformation("start");
+            var httpRequest = context.HttpContext.Request;
+            _logger.LogInformation($"请求调用开始，请求方式是：{httpRequest.Method}, 请求路径是：{httpRequest.Path}, 请求参数是：{(context.ActionArguments!=null?JsonConvert.SerializeObject(context.ActionArguments) :null)}");
         }
 
         public void OnActionExecuted(ActionExecutedContext context)
         {
-            _logger.LogInformation("end");
+            var httpResponse = context.HttpContext.Response;
+            _logger.LogInformation($"请求调用结束, 状态码是：{httpResponse.StatusCode}, 返回结果是：{(context.Result != null ? JsonConvert.SerializeObject(context.Result) : null)}");
         }
     }
 }

@@ -5,7 +5,7 @@ using FreeSql;
 
 namespace BlogManagement.Dal
 {
-    public class DbContext
+    public static class DbContext
     {
 
         public static Dictionary<string, IFreeSql> ConnectionPool = new Dictionary<string, IFreeSql>();

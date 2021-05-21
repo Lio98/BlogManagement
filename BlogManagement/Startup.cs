@@ -14,6 +14,9 @@ using BlogManagement.Utility;
 using BlogManagement.Utility.JWT;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.IO;
+using Swashbuckle.AspNetCore.Filters;
 
 namespace BlogManagement
 {
@@ -30,6 +33,8 @@ namespace BlogManagement
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddSingleton<BlogActionFilter>();
 
             #region 跨域
 
@@ -49,7 +54,7 @@ namespace BlogManagement
             jwtTokenOptions = this.Configuration.GetSection("JWTToken").Get<JWTTokenOptions>();
             //Configuration.Bind("JWTToken", jwtTokenOptions);
             services.AddSingleton<JWTTokenOptions>(jwtTokenOptions);
-            services.AddScoped<BlogActionFilter>();
+            
             services.AddAuthentication(option =>
                 {
                     //认证middleware配置
@@ -95,7 +100,31 @@ namespace BlogManagement
 
             #region Swagger
 
-            services.AddSwaggerDocument(); 
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("V1", new OpenApiInfo
+                {
+                    Version = "V1",
+                    Title = "BlogManagement API Doc-V1",
+                    Description = "BlogManagement API接口文档-V1版",
+                    Contact = new OpenApiContact { Name = "BlogSystem", Email = "liutao19980127@gmial.com" },
+                });
+                options.OrderActionsBy(x => x.RelativePath);
+
+                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "BlogManagement.xml"));
+
+                options.OperationFilter<AddResponseHeadersFilter>();
+                options.OperationFilter<AppendAuthorizeToSummaryOperationFilter>();
+                options.OperationFilter<SecurityRequirementsOperationFilter>();
+
+                options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme()
+                {
+                    Description = "请在输入时添加Bearer和一个空格",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey
+                });
+            });
 
             #endregion
         }
@@ -108,6 +137,13 @@ namespace BlogManagement
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseSwagger();
+            app.UseSwaggerUI(x =>
+            {
+                x.SwaggerEndpoint("/swagger/V1/swagger.json", "ApiJelperDoc-V1");
+                x.RoutePrefix = "";//路径配置设置为空，表示直接在根域名下访问该文件
+            });
+
             app.UseRouting();
 
             app.UseCors("any");
@@ -115,8 +151,7 @@ namespace BlogManagement
             app.UseAuthentication();//鉴权
             app.UseAuthorization();
 
-            app.UseOpenApi();
-            app.UseSwaggerUi3();
+            
 
             app.UseEndpoints(endpoints =>
             {
