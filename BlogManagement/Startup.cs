@@ -25,7 +25,7 @@ namespace BlogManagement
         }
 
         public IConfiguration Configuration { get; }
-
+        
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -44,7 +44,6 @@ namespace BlogManagement
             #endregion
 
             #region JWTToken
-
             JWTTokenOptions jwtTokenOptions = new JWTTokenOptions();
             services.Configure<JWTTokenOptions>(this.Configuration.GetSection("JWTToken"));
             jwtTokenOptions = this.Configuration.GetSection("JWTToken").Get<JWTTokenOptions>();

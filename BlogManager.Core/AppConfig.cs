@@ -9,7 +9,7 @@ namespace BlogManager.Core
     {
         public static string ConnectionString()
         {
-            IConfiguration configuration = new ConfigurationBuilder()
+            IConfigurationRoot configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsetting.json").Build();
 
             DbModel dbModel = configuration.GetSection("ConnectionStrings").Get<DbModel>();

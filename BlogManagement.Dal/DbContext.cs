@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BlogManager.Core;
 using FreeSql;
 
 namespace BlogManagement.Dal
@@ -8,7 +9,6 @@ namespace BlogManagement.Dal
     {
 
         public static Dictionary<string, IFreeSql> ConnectionPool = new Dictionary<string, IFreeSql>();
-        private static string connectionString = ;
 
 
         public static IFreeSql Db
@@ -26,7 +26,7 @@ namespace BlogManagement.Dal
             if (!ConnectionPool.ContainsKey(dbtype))
             {
                 var freesql = new FreeSql.FreeSqlBuilder()
-                    .UseConnectionString(enum_dbtype, connectionString)
+                    .UseConnectionString(enum_dbtype, AppConfig.ConnectionString())
                     .UseAutoSyncStructure(false)   //是否根据实体修改数据库， Code-First
                     .UseMonitorCommand(
                         cmd =>
