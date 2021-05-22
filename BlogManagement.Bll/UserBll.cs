@@ -2,7 +2,7 @@
 
 namespace BlogManagement.Bll
 {
-    public class Class1
+    public class UserBll
     {
     }
 }

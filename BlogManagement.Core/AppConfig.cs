@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using BlogManagement.Model;
 using Microsoft.Extensions.Configuration;
 
@@ -7,7 +9,10 @@ namespace BlogManagement.Core
 {
     public class AppConfig
     {
-
+        /// <summary>
+        /// 数据库连接字符串
+        /// </summary>
+        /// <returns></returns>
         public static string ConnectionString()
         {
             IConfigurationRoot configuration = new ConfigurationBuilder()

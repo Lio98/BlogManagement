@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using BlogManager.Core;
+using BlogManagement.Core;
 using FreeSql;
 
 namespace BlogManagement.Dal
@@ -16,17 +16,17 @@ namespace BlogManagement.Dal
             get
             {
                 DataType t = DataType.SqlServer;
-                return SelectDBType(t);
+                return SelectDbType(t);
             }
         }
 
-        private static IFreeSql SelectDBType(DataType enum_dbtype)
+        private static IFreeSql SelectDbType(DataType enumDbtype)
         {
-            var dbtype = enum_dbtype.ToString();
-            if (!ConnectionPool.ContainsKey(dbtype))
+            var dbType = enumDbtype.ToString();
+            if (!ConnectionPool.ContainsKey(dbType))
             {
-                var freesql = new FreeSql.FreeSqlBuilder()
-                    .UseConnectionString(enum_dbtype, AppConfig.ConnectionString())
+                var freeSql = new FreeSql.FreeSqlBuilder()
+                    .UseConnectionString(enumDbtype, AppConfig.ConnectionString())
                     .UseAutoSyncStructure(false)   //是否根据实体修改数据库， Code-First
                     .UseMonitorCommand(
                         cmd =>
@@ -46,9 +46,9 @@ namespace BlogManagement.Dal
 
 
 
-                ConnectionPool.Add(dbtype, freesql);
+                ConnectionPool.Add(dbType, freeSql);
             }
-            return ConnectionPool[dbtype];
+            return ConnectionPool[dbType];
         }
     }
 }
