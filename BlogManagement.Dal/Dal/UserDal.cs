@@ -27,5 +27,15 @@ namespace BlogManagement.Dal
         {
             return Db.Select<T_Sys_User>().Where(i => i.Id == id).ToList().FirstOrDefault();
         }
+
+        /// <summary>
+        /// 更新用户信息
+        /// </summary>
+        /// <returns></returns>
+        public bool UpdateUserInfo()
+        {
+            
+            return false;
+        }
     }
 }

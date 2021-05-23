@@ -16,6 +16,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.IO;
+using BlogManagement.Core;
+using BlogManagement.Dal;
+using FreeSql;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace BlogManagement
@@ -35,6 +38,11 @@ namespace BlogManagement
             services.AddControllers();
 
             services.AddSingleton<BlogActionFilter>();
+
+            //var orgFreeSql = new FreeSql.FreeSqlBuilder()
+            //        .UseConnectionString(DataType.OdbcSqlServer,AppConfig.ConnectionString())
+            //    .Build();
+            //services.AddScoped<ITransactionFreeSql>(s => new TransactionFreeSql(orgFreeSql));
 
             #region øÁ”Ú
 

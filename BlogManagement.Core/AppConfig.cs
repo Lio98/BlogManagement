@@ -9,16 +9,18 @@ namespace BlogManagement.Core
 {
     public class AppConfig
     {
+
+
         /// <summary>
         /// 数据库连接字符串
         /// </summary>
         /// <returns></returns>
         public static string ConnectionString()
         {
-            IConfigurationRoot configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsetting.json").Build();
+            //IConfigurationRoot configuration = new ConfigurationBuilder()
+            //    .SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsetting.json").Build();
 
-            ConfigHelper configHelper = new ConfigHelper("appsetting.json");
+            ConfigHelper configHelper = new ConfigHelper("appsettings.json");
             DbModel dbModel = configHelper.Get<DbModel>("ConnectionStrings");
 
             string connString = dbModel.DevelopDatabase;

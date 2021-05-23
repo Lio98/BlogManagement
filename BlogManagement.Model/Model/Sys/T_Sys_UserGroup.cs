@@ -1,16 +1,15 @@
 using FreeSql.DataAnnotations;
 using System;
 
-
 namespace BlogManagement.Model
 {
     /// <summary>
-    ///  用户表
+    ///  用户组映射表
     ///</summary>
-    public class   T_Sys_User
+    public class T_Sys_UserGroup
     {
 
-       public T_Sys_User()
+       public T_Sys_UserGroup()
        {
       
        }
@@ -22,29 +21,19 @@ namespace BlogManagement.Model
         public int Id { get; set; }
 
         ///<summary>
-        ///描述：名称
+        ///描述：用户标识
         ///</summary>
-        public string Name { get; set; }
+        public int UserId { get; set; }
 
         ///<summary>
-        ///描述：账号
+        ///描述：组标识
         ///</summary>
-        public string Account { get; set; }
+        public int Groupid { get; set; }
 
         ///<summary>
-        ///描述：密码
-        ///</summary>
-        public string Password { get; set; }
-
-        ///<summary>
-        ///描述：状态 - 0：禁用；1正常
+        ///描述：状态 - 0：禁用；1：正常
         ///</summary>
         public string Status { get; set; }
-
-        ///<summary>
-        ///描述：备注
-        ///</summary>
-        public string Remark { get; set; }
 
         ///<summary>
         ///描述：创建人
