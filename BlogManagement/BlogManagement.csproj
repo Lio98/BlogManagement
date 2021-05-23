@@ -21,8 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BlogManagement.Bll\BlogManagement.Bll.csproj" />
+    <ProjectReference Include="..\BlogManagement.Core\BlogManagement.Core.csproj" />
     <ProjectReference Include="..\BlogManagement.Dal\BlogManagement.Dal.csproj" />
+    <ProjectReference Include="..\BlogManagement.Interface\BlogManagement.Interface.csproj" />
     <ProjectReference Include="..\BlogManagement.Model\BlogManagement.Model.csproj" />
   </ItemGroup>
 

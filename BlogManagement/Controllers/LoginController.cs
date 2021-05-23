@@ -8,6 +8,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using BlogManagement.Dal;
+using BlogManagement.Interface;
+using BlogManagement.Model;
 using BlogManagement.Utility;
 using BlogManagement.Utility.JWT;
 using Microsoft.AspNetCore.Authorization;
@@ -23,12 +26,13 @@ namespace BlogManagement.Controllers
     [ServiceFilter(typeof(BlogActionFilter))]
     public class LoginController : ControllerBase
     {
-        private ILogger<LoginController> _logger = null;
         private JWTTokenOptions _jwtTokenOptions = null;
-        public LoginController(ILogger<LoginController> logger,JWTTokenOptions jwtTokenOptions) 
+        private IUser _user = null;
+
+        public LoginController(JWTTokenOptions jwtTokenOptions,IUser user) 
         {
-            this._logger = logger;
             this._jwtTokenOptions = jwtTokenOptions;
+            this._user = user;
         }
         
         /// <summary>
@@ -39,8 +43,20 @@ namespace BlogManagement.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("login")]
-        public IActionResult Login(string account, string password) 
+        public IActionResult Login(string account, string password)
         {
+            var isExist = _user.UserLogin(account, password);
+            //用户不存在
+            if (!isExist)
+            {
+                return new JsonResult(JsonConvert.SerializeObject(new
+                {
+                    StatusCode=200,
+                    Status=ReturnStatus.Fail,
+                    Msg="用户名或密码错误，请重新输入"
+                }));
+            }
+
             var token = JWTTokenHelper.JwtEncrypt(new TokenModelJwt() { UserId=123,Level=""} ,this._jwtTokenOptions);
             return new JsonResult(JsonConvert.SerializeObject(new
             {
@@ -52,12 +68,46 @@ namespace BlogManagement.Controllers
         }
 
         /// <summary>
-        /// 测试
+        /// 注册用户
         /// </summary>
-        [HttpGet("Test")]
-        public IActionResult Test() 
+        /// <param name="sUserInfo"></param>
+        /// <returns></returns>
+        [HttpPost("AddUserInfo")]
+        public IActionResult AddUserInfo(string sUserInfo)
         {
-            return Ok("success");
+            T_Sys_User userInfo = JsonConvert.DeserializeObject<T_Sys_User>(sUserInfo);
+            if (userInfo == null)
+            {
+                return new JsonResult(JsonConvert.SerializeObject(new
+                {
+                    StatusCode=200,
+                    Status=ReturnStatus.Fail,
+                    Msg="传入数据格式不正确，请检查数据是否正确"
+                }));
+            }
+
+            if (_user.AddUserInfo(userInfo))
+            {
+                return new JsonResult(JsonConvert.SerializeObject(new
+                {
+                    StatusCode = 200,
+                    Status = ReturnStatus.Success,
+                    Msg = "添加成功"
+                }));
+            }
+            return new JsonResult(JsonConvert.SerializeObject(new
+            {
+                StatusCode = 200,
+                Status = ReturnStatus.Fail,
+                Msg = "添加用户信息失败，请联系系统管理员"
+            }));
+        }
+
+        [HttpGet("TestException")]
+        [AllowAnonymous]
+        public IActionResult TestException()
+        {
+            throw new Exception("出现错误了");
         }
     }
 }

@@ -21,13 +21,13 @@ namespace BlogManagement.Utility
         public void OnActionExecuting(ActionExecutingContext context)
         {
             var httpRequest = context.HttpContext.Request;
-            _logger.LogInformation($"请求调用开始，请求方式是：{httpRequest.Method}, 请求路径是：{httpRequest.Path}, 请求参数是：{(context.ActionArguments!=null?JsonConvert.SerializeObject(context.ActionArguments) :null)}");
+            _logger.LogInformation($"开始调用 {httpRequest.Path}接口, 请求方式是：{httpRequest.Method}, 请求参数是：{(context.ActionArguments!=null?JsonConvert.SerializeObject(context.ActionArguments) :null)}");
         }
 
         public void OnActionExecuted(ActionExecutedContext context)
         {
             var httpResponse = context.HttpContext.Response;
-            _logger.LogInformation($"请求调用结束, 状态码是：{httpResponse.StatusCode}, 返回结果是：{(context.Result != null ? JsonConvert.SerializeObject(context.Result) : null)}");
+            _logger.LogInformation($"调用 api/{context.RouteData.Values["controller"]}/{context.RouteData.Values["action"]}接口结束, 状态码是：{httpResponse.StatusCode}, 执行结果是：{(context.Result != null ? JsonConvert.SerializeObject(context.Result) : null)}");
         }
     }
 }

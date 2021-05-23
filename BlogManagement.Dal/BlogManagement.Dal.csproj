@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BlogManagement.Core\BlogManagement.Core.csproj" />
+    <ProjectReference Include="..\BlogManagement.Interface\BlogManagement.Interface.csproj" />
     <ProjectReference Include="..\BlogManagement.Model\BlogManagement.Model.csproj" />
   </ItemGroup>
 

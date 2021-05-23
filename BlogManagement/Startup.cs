@@ -18,6 +18,7 @@ using Microsoft.OpenApi.Models;
 using System.IO;
 using BlogManagement.Core;
 using BlogManagement.Dal;
+using BlogManagement.Interface;
 using FreeSql;
 using Swashbuckle.AspNetCore.Filters;
 
@@ -35,10 +36,13 @@ namespace BlogManagement
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-
+            services.AddControllers(option =>
+            {
+                option.Filters.Add<BlogExceptionFilter>();
+            });
+            
             services.AddSingleton<BlogActionFilter>();
-
+            services.AddScoped(typeof(IUser), typeof(UserDal));
             //var orgFreeSql = new FreeSql.FreeSqlBuilder()
             //        .UseConnectionString(DataType.OdbcSqlServer,AppConfig.ConnectionString())
             //    .Build();
