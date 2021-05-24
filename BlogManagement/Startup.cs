@@ -43,10 +43,6 @@ namespace BlogManagement
             
             services.AddSingleton<BlogActionFilter>();
             services.AddScoped(typeof(IUser), typeof(UserDal));
-            //var orgFreeSql = new FreeSql.FreeSqlBuilder()
-            //        .UseConnectionString(DataType.OdbcSqlServer,AppConfig.ConnectionString())
-            //    .Build();
-            //services.AddScoped<ITransactionFreeSql>(s => new TransactionFreeSql(orgFreeSql));
 
             #region øÁ”Ú
 
