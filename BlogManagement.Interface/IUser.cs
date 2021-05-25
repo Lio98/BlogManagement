@@ -18,7 +18,7 @@ namespace BlogManagement.Interface
         /// 新增用户信息
         /// </summary>
         /// <param name="user"></param>
-        /// <param name="userInfo"></param>
+        /// <param name="msg"></param>
         /// <returns></returns>
         bool AddUserInfo(T_Sys_User user, out string msg);
 

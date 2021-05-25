@@ -60,15 +60,13 @@ namespace BlogManagement.Controllers
             }
 
             var token = JWTTokenHelper.JwtEncrypt(new TokenModelJwt() { UserId=userInfo.Id,Level=""} ,this._jwtTokenOptions);
-            
+            logInUserInfo = userInfo;
             T_Sys_Logs logInfo = new T_Sys_Logs()
             {
                 Operation = OperationType.登录.EnumIntToString(),
                 Operator = userInfo.Id,
                 Type = SysLogType.登录日志.EnumIntToString(),
-                Content = $"用户[{userInfo.Account}]登录成功！时间：{DateTime.Now}",
-                CreateTime = DateTime.Now,
-                Remarks = ""
+                Content = $"用户[{userInfo.Account}]登录成功！时间：{DateTime.Now}"
             };
             base.AddOperationLogs(logInfo);
             return new JsonResult(new

@@ -76,6 +76,7 @@ namespace BlogManagement.Dal
         public bool AddUserInfo(T_Sys_User user, out string msg)
         {
             msg = string.Empty;
+            //检验该账户是否已存在
             var existUser = Db.Select<T_Sys_User>()
                 .Where(i => i.Account.Equals(user.Account, StringComparison.CurrentCultureIgnoreCase)).First();
             if (existUser != null)
