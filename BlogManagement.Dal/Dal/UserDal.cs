@@ -13,6 +13,24 @@ namespace BlogManagement.Dal
     public class UserDal : BaseDal, IUser
     {
         /// <summary>
+        /// 用户登录
+        /// </summary>
+        /// <param name="account"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public bool UserLogin(string account, string password)
+        {
+            string encryptPassword = Encrypt.MD5Encrypt(password);
+            var userInfo = Db.Select<T_Sys_User>().Where(i =>
+                    i.Account == account
+                    && i.Password.Equals(encryptPassword, StringComparison.CurrentCultureIgnoreCase)
+                    && i.Status.Equals("1"))
+                .ToList()
+                .FirstOrDefault();
+            return userInfo != null ? true : false;
+        }
+
+        /// <summary>
         /// 获取所有用户信息
         /// </summary>
         /// <returns></returns>
@@ -49,35 +67,6 @@ namespace BlogManagement.Dal
         }
 
         /// <summary>
-        /// 用户登录
-        /// </summary>
-        /// <param name="account"></param>
-        /// <param name="password"></param>
-        /// <returns></returns>
-        public bool UserLogin(string account, string password)
-        {
-            string encryptPassword = Encrypt.MD5Encrypt(password);
-            var userInfo = Db.Select<T_Sys_User>().Where(i =>
-                    i.Account == account
-                    && i.Password.Equals(encryptPassword, StringComparison.CurrentCultureIgnoreCase)
-                    && i.Status.Equals("1"))
-                .ToList()
-                .FirstOrDefault();
-            return userInfo != null ? true : false;
-        }
-
-        /// <summary>
-        /// 通过Id更新用户信息
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public bool UpdateUserInfoById(int id)
-        {
-
-            return false;
-        }
-
-        /// <summary>
         /// 新增用户信息
         /// </summary>
         /// <param name="user"></param>
@@ -86,20 +75,31 @@ namespace BlogManagement.Dal
         {
             //密码MD5加密
             user.Password = Encrypt.MD5Encrypt(user.Password);
-            user.CreateTime=DateTime.Now;
-            user.UpdateTime=DateTime.Now;
+            user.CreateTime = DateTime.Now;
+            user.UpdateTime = DateTime.Now;
             long id = Db.Insert<T_Sys_User>(user).ExecuteIdentity();
-            if (id <= 0) 
+            if (id <= 0)
                 return false;
 
             //写入缓存
-            using (RedisHashService service=new RedisHashService())
+            using (RedisHashService service = new RedisHashService())
             {
                 user.Id = id;
                 service.StoreAsHash(user);
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// 通过Id更新用户信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public bool UpdateUserInfoById(long id)
+        {
+
+            return false;
         }
     }
 }
