@@ -67,10 +67,11 @@ namespace BlogManagement.Dal
         }
 
         /// <summary>
-        /// 更新用户信息
+        /// 通过Id更新用户信息
         /// </summary>
+        /// <param name="id"></param>
         /// <returns></returns>
-        public bool UpdateUserInfo()
+        public bool UpdateUserInfoById(int id)
         {
 
             return false;

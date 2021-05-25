@@ -28,10 +28,10 @@ namespace BlogManagement.Interface
         bool UserLogin(string account, string password);
 
         /// <summary>
-        /// 更新用户信息
+        /// 通过Id更新用户信息
         /// </summary>
         /// <returns></returns>
-        bool UpdateUserInfo();
+        bool UpdateUserInfoById(int id);
 
         /// <summary>
         /// 新增用户信息
