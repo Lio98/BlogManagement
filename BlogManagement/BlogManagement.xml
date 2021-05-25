@@ -4,6 +4,12 @@
         <name>BlogManagement</name>
     </assembly>
     <members>
+        <member name="M:BlogManagement.Controllers.BlogControllerBase.AddOperationLogs(BlogManagement.Model.T_Sys_Logs)">
+            <summary>
+            写入用户操作日志
+            </summary>
+            <param name="logInfo"></param>
+        </member>
         <member name="T:BlogManagement.Controllers.LoginController">
             <summary>
             登录
@@ -17,10 +23,24 @@
             <param name="password">密码</param>
             <returns></returns>
         </member>
-        <member name="M:BlogManagement.Controllers.LoginController.Test">
+        <member name="T:BlogManagement.Controllers.UserController">
             <summary>
-            测试
+            用户信息
             </summary>
+        </member>
+        <member name="M:BlogManagement.Controllers.UserController.GetUserInfoById(System.Int64)">
+            <summary>
+            根据Id查询用户信息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogManagement.Controllers.UserController.AddUserInfo(System.String)">
+            <summary>
+            添加用户
+            </summary>
+            <param name="sUserInfo"></param>
+            <returns></returns>
         </member>
         <member name="M:BlogManagement.Utility.JWT.JWTTokenHelper.JwtEncrypt(BlogManagement.Utility.JWT.TokenModelJwt,BlogManagement.Utility.JWT.JWTTokenOptions)">
             <summary>

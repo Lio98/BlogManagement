@@ -12,14 +12,15 @@ namespace BlogManagement.Interface
         /// <param name="account"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        bool UserLogin(string account, string password);
+        bool UserLogin(string account, string password, out T_Sys_User userInfo);
 
         /// <summary>
         /// 新增用户信息
         /// </summary>
         /// <param name="user"></param>
+        /// <param name="userInfo"></param>
         /// <returns></returns>
-        bool AddUserInfo(T_Sys_User user);
+        bool AddUserInfo(T_Sys_User user, out string msg);
 
         /// <summary>
         /// 获取所有用户信息

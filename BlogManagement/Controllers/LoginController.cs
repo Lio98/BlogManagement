@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using BlogManagement.Core;
 using BlogManagement.Dal;
 using BlogManagement.Interface;
 using BlogManagement.Model;
@@ -24,7 +25,7 @@ namespace BlogManagement.Controllers
     [ApiController]
     [Authorize]
     [ServiceFilter(typeof(BlogActionFilter))]
-    public class LoginController : ControllerBase
+    public class LoginController : BlogControllerBase
     {
         private JWTTokenOptions _jwtTokenOptions = null;
         private IUser _user = null;
@@ -45,7 +46,8 @@ namespace BlogManagement.Controllers
         [HttpGet("login")]
         public IActionResult Login(string account, string password)
         {
-            var isExist = _user.UserLogin(account, password);
+            T_Sys_User userInfo = new T_Sys_User();
+            var isExist = _user.UserLogin(account, password,out userInfo);
             //用户不存在
             if (!isExist)
             {
@@ -57,14 +59,25 @@ namespace BlogManagement.Controllers
                 }));
             }
 
-            var token = JWTTokenHelper.JwtEncrypt(new TokenModelJwt() { UserId=123,Level=""} ,this._jwtTokenOptions);
-            return new JsonResult(JsonConvert.SerializeObject(new
+            var token = JWTTokenHelper.JwtEncrypt(new TokenModelJwt() { UserId=userInfo.Id,Level=""} ,this._jwtTokenOptions);
+            
+            T_Sys_Logs logInfo = new T_Sys_Logs()
+            {
+                Operation = OperationType.登录.EnumIntToString(),
+                Operator = userInfo.Id,
+                Type = SysLogType.登录日志.EnumIntToString(),
+                Content = $"用户[{userInfo.Account}]登录成功！时间：{DateTime.Now}",
+                CreateTime = DateTime.Now,
+                Remarks = ""
+            };
+            base.AddOperationLogs(logInfo);
+            return new JsonResult(new
             {
                 StatusCode = 200,
                 Status = ReturnStatus.Success,
                 Token= token,
                 Msg = "登录成功"
-            }));
+            });
         }
         
     }

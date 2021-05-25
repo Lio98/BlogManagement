@@ -70,7 +70,7 @@ namespace BlogManagement.Utility.JWT
     /// </summary>
     public class TokenModelJwt
     {
-        public int UserId { get; set; }
+        public long UserId { get; set; }
 
         public string Level { get; set; }
     }

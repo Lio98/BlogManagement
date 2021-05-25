@@ -21,7 +21,7 @@ namespace BlogManagement.Controllers
     [ApiController]
     [Authorize]
     [ServiceFilter(typeof(BlogActionFilter))]
-    public class UserController : ControllerBase
+    public class UserController : BlogControllerBase
     {
         private IUser _user = null;
 
@@ -89,7 +89,7 @@ namespace BlogManagement.Controllers
                 });
             }
 
-            if (_user.AddUserInfo(userInfo))
+            if (_user.AddUserInfo(userInfo, out string msg))
             {
                 return new JsonResult(new ReturnResultModel()
                 {
@@ -104,7 +104,7 @@ namespace BlogManagement.Controllers
                 StatusCode = 200,
                 Status = ReturnStatus.Fail,
                 Data = null,
-                Msg = "添加用户信息失败，请联系系统管理员"
+                Msg = msg
             });
         }
 

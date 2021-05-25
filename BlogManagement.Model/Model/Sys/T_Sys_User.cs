@@ -49,7 +49,7 @@ namespace BlogManagement.Model
         ///<summary>
         ///描述：创建人
         ///</summary>
-        public int Creater { get; set; }
+        public long Creater { get; set; }
 
         ///<summary>
         ///描述：创建时间
@@ -59,7 +59,7 @@ namespace BlogManagement.Model
         ///<summary>
         ///描述：修改人
         ///</summary>
-        public int Updater { get; set; }
+        public long Updater { get; set; }
 
         ///<summary>
         ///描述：修改时间

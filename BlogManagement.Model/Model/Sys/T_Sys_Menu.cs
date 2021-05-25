@@ -18,7 +18,7 @@ namespace BlogManagement.Model
         ///描述：标识
         ///</summary>
         [Column(IsIdentity = true, IsPrimary = true)]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         ///<summary>
         ///描述：方法名称
@@ -63,7 +63,7 @@ namespace BlogManagement.Model
         ///<summary>
         ///描述：显示命令
         ///</summary>
-        public int DispalyOrder { get; set; }
+        public long DispalyOrder { get; set; }
 
         ///<summary>
         ///描述：是否内部 - 0：否；1：是
@@ -83,7 +83,7 @@ namespace BlogManagement.Model
         ///<summary>
         ///描述：父项标识
         ///</summary>
-        public int ParentId { get; set; }
+        public long ParentId { get; set; }
 
         ///<summary>
         ///描述：
@@ -93,7 +93,7 @@ namespace BlogManagement.Model
         ///<summary>
         ///描述：创建人
         ///</summary>
-        public int Creater { get; set; }
+        public long Creater { get; set; }
 
         ///<summary>
         ///描述：创建时间
@@ -103,7 +103,7 @@ namespace BlogManagement.Model
         ///<summary>
         ///描述：修改人
         ///</summary>
-        public int Updater { get; set; }
+        public long Updater { get; set; }
 
         ///<summary>
         ///描述：修改时间

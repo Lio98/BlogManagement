@@ -18,22 +18,22 @@ namespace BlogManagement.Model
         ///描述：标识
         ///</summary>
         [Column(IsIdentity = true, IsPrimary = true)]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         ///<summary>
         ///描述：角色标识
         ///</summary>
-        public int RoleId { get; set; }
+        public long RoleId { get; set; }
 
         ///<summary>
         ///描述：用户标识
         ///</summary>
-        public int UserId { get; set; }
+        public long UserId { get; set; }
 
         ///<summary>
         ///描述：菜单标识
         ///</summary>
-        public int MenuId { get; set; }
+        public long MenuId { get; set; }
 
         ///<summary>
         ///描述：是否允许 - 0：否；1：是
@@ -43,7 +43,7 @@ namespace BlogManagement.Model
         ///<summary>
         ///描述：创建人
         ///</summary>
-        public int Creater { get; set; }
+        public long Creater { get; set; }
 
         ///<summary>
         ///描述：创建时间
@@ -53,7 +53,7 @@ namespace BlogManagement.Model
         ///<summary>
         ///描述：修改人
         ///</summary>
-        public int Updater { get; set; }
+        public long Updater { get; set; }
 
         ///<summary>
         ///描述：修改时间
