@@ -14,6 +14,10 @@ namespace BlogManagement.Core
         /// <returns></returns>
         public static string EnumIntToString(this Enum values)
         {
+            if (Enum.GetUnderlyingType(values.GetType()) != typeof(int))
+            {
+                return null;
+            }
             return (values.ConvertTo<int>()).ToString();
         }
     }

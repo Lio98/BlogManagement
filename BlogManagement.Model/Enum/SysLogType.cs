@@ -7,7 +7,7 @@ namespace BlogManagement.Model.Enum
     /// <summary>
     /// 系统日志类型
     /// </summary>
-    public enum SysLogType
+    public enum SysLogType : int
     {
         全部 = 0,
 

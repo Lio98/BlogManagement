@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BlogManagement.Model.Enum
 {
-    public enum OperationType
+    public enum OperationType : int
     {
         查询 = 1,
 
@@ -13,7 +13,7 @@ namespace BlogManagement.Model.Enum
         修改 = 3,
 
         删除 = 4,
-        
+
         登录 = 5,
 
         退出 = 6
