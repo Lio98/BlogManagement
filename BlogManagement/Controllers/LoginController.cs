@@ -66,48 +66,6 @@ namespace BlogManagement.Controllers
                 Msg = "登录成功"
             }));
         }
-
-        /// <summary>
-        /// 注册用户
-        /// </summary>
-        /// <param name="sUserInfo"></param>
-        /// <returns></returns>
-        [HttpPost("AddUserInfo")]
-        public IActionResult AddUserInfo(string sUserInfo)
-        {
-            T_Sys_User userInfo = JsonConvert.DeserializeObject<T_Sys_User>(sUserInfo);
-            if (userInfo == null)
-            {
-                return new JsonResult(JsonConvert.SerializeObject(new
-                {
-                    StatusCode=200,
-                    Status=ReturnStatus.Fail,
-                    Msg="传入数据格式不正确，请检查数据是否正确"
-                }));
-            }
-
-            if (_user.AddUserInfo(userInfo))
-            {
-                return new JsonResult(JsonConvert.SerializeObject(new
-                {
-                    StatusCode = 200,
-                    Status = ReturnStatus.Success,
-                    Msg = "添加成功"
-                }));
-            }
-            return new JsonResult(JsonConvert.SerializeObject(new
-            {
-                StatusCode = 200,
-                Status = ReturnStatus.Fail,
-                Msg = "添加用户信息失败，请联系系统管理员"
-            }));
-        }
-
-        [HttpGet("TestException")]
-        [AllowAnonymous]
-        public IActionResult TestException()
-        {
-            throw new Exception("出现错误了");
-        }
+        
     }
 }

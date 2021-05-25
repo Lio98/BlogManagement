@@ -17,7 +17,7 @@ namespace BlogManagement.Interface
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        T_Sys_User GetUserInfoById(int id);
+        T_Sys_User GetUserInfoById(long id);
 
         /// <summary>
         /// 用户登录

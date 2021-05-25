@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using BlogManagement.Core;
+using BlogManagement.Core.Redis.Service;
 using BlogManagement.Interface;
 
 namespace BlogManagement.Dal
@@ -25,9 +26,26 @@ namespace BlogManagement.Dal
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public T_Sys_User GetUserInfoById(int id)
+        public T_Sys_User GetUserInfoById(long id)
         {
-            return Db.Select<T_Sys_User>().Where(i => i.Id == id).ToList().FirstOrDefault();
+            T_Sys_User userInfo;
+            using (RedisHashService service=new RedisHashService())
+            {
+                userInfo = service.GetFromHash<T_Sys_User>(id);
+                if (userInfo?.Id==id)
+                    return userInfo;
+            }
+            userInfo= Db.Select<T_Sys_User>().Where(i => i.Id == id).ToList().FirstOrDefault();
+            //查出来再存到缓存中
+            if (userInfo?.Id == id)
+            {
+                using (RedisHashService service=new RedisHashService())
+                {
+                    service.StoreAsHash(userInfo);
+                }
+            }
+
+            return userInfo;
         }
 
         /// <summary>
@@ -69,7 +87,18 @@ namespace BlogManagement.Dal
             user.Password = Encrypt.MD5Encrypt(user.Password);
             user.CreateTime=DateTime.Now;
             user.UpdateTime=DateTime.Now;
-            return Db.Insert<T_Sys_User>(user).ExecuteAffrows() > 0 ? true : false;
+            long id = Db.Insert<T_Sys_User>(user).ExecuteIdentity();
+            if (id <= 0) 
+                return false;
+
+            //写入缓存
+            using (RedisHashService service=new RedisHashService())
+            {
+                user.Id = id;
+                service.StoreAsHash(user);
+            }
+
+            return true;
         }
     }
 }

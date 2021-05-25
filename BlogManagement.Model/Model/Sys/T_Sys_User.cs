@@ -19,7 +19,7 @@ namespace BlogManagement.Model
         ///描述：标识
         ///</summary>
         [Column(IsIdentity = true, IsPrimary = true)]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         ///<summary>
         ///描述：名称
