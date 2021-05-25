@@ -45,7 +45,6 @@ namespace BlogManagement.Controllers
                 {
                     StatusCode = 200,
                     Status = ReturnStatus.Fail,
-                    Data = null,
                     Msg = "传入的Id不可为空"
                 });
             }
@@ -57,7 +56,6 @@ namespace BlogManagement.Controllers
                 {
                     StatusCode = 200,
                     Status = ReturnStatus.Success,
-                    Data = null,
                     Msg = "查询结果为空"
                 });
             }
@@ -85,7 +83,6 @@ namespace BlogManagement.Controllers
                 {
                     StatusCode = 200,
                     Status = ReturnStatus.Fail,
-                    Data = null,
                     Msg = "传入数据格式不正确，请检查数据是否正确"
                 });
             }
@@ -97,14 +94,13 @@ namespace BlogManagement.Controllers
                     Operation = OperationType.新增.EnumIntToString(),
                     Operator = logInUserInfo.Id,
                     Type = SysLogType.操作日志.EnumIntToString(),
-                    Content = $"用户[{logInUserInfo.Id}]新增一条用户信息成功！新增详细信息：{JsonConvert.SerializeObject(userInfo)}。时间：{DateTime.Now}"
+                    Content = $"用户[{logInUserInfo.Name}]新增一条用户信息成功！新增详细信息：{JsonConvert.SerializeObject(userInfo)}。时间：{DateTime.Now}"
                 };
                 base.AddOperationLogs(logInfo);
                 return new JsonResult(new ReturnResultModel()
                 {
                     StatusCode = 200,
                     Status = ReturnStatus.Success,
-                    Data = null,
                     Msg = "添加成功"
                 });
             }
@@ -112,7 +108,6 @@ namespace BlogManagement.Controllers
             {
                 StatusCode = 200,
                 Status = ReturnStatus.Fail,
-                Data = null,
                 Msg = msg
             });
         }

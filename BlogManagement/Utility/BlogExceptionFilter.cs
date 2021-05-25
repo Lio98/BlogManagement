@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BlogManagement.Model.Enum;
+using BlogManagement.Model.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
@@ -24,12 +25,12 @@ namespace BlogManagement.Utility
             if (!context.ExceptionHandled)
             {
                 this._logger.LogError($"在响应{httpContext.Request.Path}时出现异常，异常信息：{context.Exception.Message}\r\n{context.Exception}");
-                context.Result = new JsonResult(new
+                context.Result = new JsonResult(new ReturnResultModel()
                 {
                     StatusCode = 500,
-                    DeBugMessage = context.Exception.Message,
                     Status = ReturnStatus.Fail,
-                    Msg = "发生错误，请联系管理员"
+                    Msg = "发生错误，请联系管理员",
+                    DeBugMessage = context.Exception.Message
                 });
 
                 context.ExceptionHandled = true;

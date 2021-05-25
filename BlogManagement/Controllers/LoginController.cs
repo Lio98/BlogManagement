@@ -12,6 +12,7 @@ using BlogManagement.Core;
 using BlogManagement.Dal;
 using BlogManagement.Interface;
 using BlogManagement.Model;
+using BlogManagement.Model.Model;
 using BlogManagement.Utility;
 using BlogManagement.Utility.JWT;
 using Microsoft.AspNetCore.Authorization;
@@ -69,11 +70,11 @@ namespace BlogManagement.Controllers
                 Content = $"用户[{userInfo.Account}]登录成功！时间：{DateTime.Now}"
             };
             base.AddOperationLogs(logInfo);
-            return new JsonResult(new
+            return new JsonResult(new ReturnResultModel()
             {
                 StatusCode = 200,
                 Status = ReturnStatus.Success,
-                Token= token,
+                Data= token,
                 Msg = "登录成功"
             });
         }
