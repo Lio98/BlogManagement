@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
@@ -21,6 +20,7 @@ using BlogManagement.Dal;
 using BlogManagement.Interface;
 using FreeSql;
 using Swashbuckle.AspNetCore.Filters;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace BlogManagement
 {
@@ -40,7 +40,14 @@ namespace BlogManagement
             {
                 option.Filters.Add<BlogExceptionFilter>();
             });
-            
+            //.AddNewtonsoftJson(options =>
+            //{
+            //    options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+            //    options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
+            //    options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
+            //    options.SerializerSettings.Converters.Add(new UnixTimeStampConverter());
+            //});
+
             services.AddSingleton<BlogActionFilter>();
             services.AddScoped(typeof(IUser), typeof(UserDal));
 
@@ -127,10 +134,22 @@ namespace BlogManagement
 
                 options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme()
                 {
-                    Description = "请在输入时添加Bearer和一个空格",
+                    Description = "在下框中输入请求头中需要添加Jwt授权Token：Bearer Token",
                     Name = "Authorization",
                     In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey
+                    Scheme = "bearer",
+                    Type = SecuritySchemeType.ApiKey,
+                    BearerFormat = "JWT"
+                });
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference(){ Id="Bearer",Type=ReferenceType.SecurityScheme }
+                        },
+                        Array.Empty<string>()
+                    }
                 });
             });
 
