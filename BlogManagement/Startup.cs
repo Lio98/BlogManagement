@@ -21,6 +21,8 @@ using BlogManagement.Interface;
 using FreeSql;
 using Swashbuckle.AspNetCore.Filters;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace BlogManagement
 {
@@ -39,14 +41,14 @@ namespace BlogManagement
             services.AddControllers(option =>
             {
                 option.Filters.Add<BlogExceptionFilter>();
+            })
+            .AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
+                options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
+                options.SerializerSettings.Converters.Add(new UnixTimeStampConverter());
             });
-            //.AddNewtonsoftJson(options =>
-            //{
-            //    options.SerializerSettings.ContractResolver = new DefaultContractResolver();
-            //    options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
-            //    options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
-            //    options.SerializerSettings.Converters.Add(new UnixTimeStampConverter());
-            //});
 
             services.AddSingleton<BlogActionFilter>();
             services.AddScoped(typeof(IUser), typeof(UserDal));
