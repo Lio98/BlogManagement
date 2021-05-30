@@ -8,6 +8,7 @@ using BlogManagement.Interface;
 using BlogManagement.Model;
 using BlogManagement.Model.Enum;
 using BlogManagement.Model.Model;
+using BlogManagement.Model.Model.Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Serilog.Core;
@@ -70,6 +71,7 @@ namespace BlogManagement.Utility
 
             var userProvider = new UserProvider();
             var userInfo = userProvider.Get();
+            string content = string.Empty;
             if (context.HttpContext.Request.Path.Equals("/api/Login/Login"))
             {
                 operation = OperationType.登录;
@@ -79,12 +81,14 @@ namespace BlogManagement.Utility
                     string token = (returnResult.Value as ReturnResultModel)?.Data;
                     if (token.IsNullOrEmpty()) return;
                     userInfo = userProvider.Get("Bearer " + token);
+                    content = $"用户[{userInfo?.Account}] {operation}系统, 输入的账号是 {userInfo?.Account},返回的数据是 {responseValue}";
                 }
             }
             else if (context.HttpContext.Request.Path.Equals("/api/Login/Logout"))
             {
                 operation = OperationType.退出;
                 operationLogType = OperationLogType.登录日志;
+                content = $"用户[{userInfo?.Account}] {operation}系统, 退出的账号是 {userInfo?.Account},返回的数据是 {responseValue}";
             }
 
             if (userInfo != null)
@@ -93,7 +97,9 @@ namespace BlogManagement.Utility
                 {
                     Operation = operation.EnumIntToString(),
                     Operator = userInfo.Id,
-                    Content = $"用户[{userInfo.Account}] {operation}数据, 输入的数据是 {_requestValue},返回的数据是 {responseValue}",
+                    Content = content.IsNullOrEmpty()
+                        ? $"用户[{userInfo.Account}] {operation}数据, 输入的数据是 {_requestValue},返回的数据是 {responseValue}"
+                        : content,
                     ResponseCode = httpResponse.StatusCode,
                     Type = operationLogType.EnumIntToString()
                 };
