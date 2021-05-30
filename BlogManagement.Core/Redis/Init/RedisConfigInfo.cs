@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BlogManagement.Core.Redis
+namespace BlogManagement.Core
 {
     /// <summary>
     /// redis配置文件信息

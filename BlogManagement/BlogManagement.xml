@@ -4,12 +4,6 @@
         <name>BlogManagement</name>
     </assembly>
     <members>
-        <member name="M:BlogManagement.Controllers.BlogControllerBase.AddOperationLogs(BlogManagement.Model.T_Sys_Logs)">
-            <summary>
-            写入用户操作日志
-            </summary>
-            <param name="logInfo"></param>
-        </member>
         <member name="T:BlogManagement.Controllers.LoginController">
             <summary>
             登录
@@ -81,6 +75,24 @@
             <summary>
             密钥
             </summary>
+        </member>
+        <member name="P:BlogManagement.Utility.UserProvider.Instance">
+            <summary>
+            静态实例
+            </summary>
+        </member>
+        <member name="M:BlogManagement.Utility.UserProvider.Get(System.String)">
+            <summary>
+            获取
+            </summary>
+            <param name="token">认证信息</param>
+            <returns></returns>
+        </member>
+        <member name="P:BlogManagement.Utility.UserProvider.IsOverdue">
+            <summary>
+            是否过期
+            </summary>
+            <returns></returns>
         </member>
     </members>
 </doc>

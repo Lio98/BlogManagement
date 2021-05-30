@@ -1,5 +1,5 @@
-﻿using System;
-using BlogManagement.Core.Extend;
+﻿#nullable enable
+using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -31,7 +31,7 @@ namespace BlogManagement.Core
                 }
                 else if (reader.TokenType == JsonToken.String)
                 {
-                    return DateTime.Parse(reader.Value.ToString());
+                    return DateTime.Parse(reader.Value?.ToString() ?? string.Empty);
                 }
                 else
                 {
@@ -67,13 +67,13 @@ namespace BlogManagement.Core
 
     public class UnixDateTimeConverter : DateTimeConverterBase
     {
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
         {
             if (reader.TokenType != JsonToken.Integer)
             {
                 throw new Exception(String.Format("日期格式错误,got {0}.", reader.TokenType));
             }
-            var ticks = (long)reader.Value;
+            var ticks = (long)(reader.Value ?? 0);
             var date = new DateTime(1970, 1, 1);
             date = date.AddSeconds(ticks);
             return date;

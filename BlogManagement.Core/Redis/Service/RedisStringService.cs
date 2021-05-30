@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Newtonsoft.Json;
 
-namespace BlogManagement.Core.Redis.Service
+namespace BlogManagement.Core
 {
     /// <summary>
     /// key-value 键值对:value可以是序列化的数据
@@ -59,6 +60,23 @@ namespace BlogManagement.Core.Redis.Service
         {
             return base.iClient.GetValue(key);
         }
+
+        /// <summary>
+        /// 获取key的value值
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public T Get<T>(string key) where T : class
+        {
+            var data = base.iClient.GetValue(key);
+            if (data!=null)
+            {
+                return JsonConvert.DeserializeObject<T>(data);
+            }
+            return default(T);
+        }
+
         /// <summary>
         /// 获取多个key的value值
         /// </summary>

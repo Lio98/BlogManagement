@@ -39,12 +39,17 @@ namespace BlogManagement.Model
         ///描述：内容
         ///</summary>
         public string Content { get; set; }
-        
+
+        /// <summary>
+        /// 状态码
+        /// </summary>
+        public  int ResponseCode { get; set; }
+
         ///<summary>
         ///描述：创建人
         ///</summary>
-        public DateTime CreateTime { get; set; }
-        
+        public DateTime CreateTime { get; set; } = DateTime.Now;
+
         ///<summary>
         ///描述：备注
         ///</summary>

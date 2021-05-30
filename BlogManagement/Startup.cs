@@ -17,12 +17,15 @@ using Microsoft.OpenApi.Models;
 using System.IO;
 using BlogManagement.Core;
 using BlogManagement.Dal;
+using BlogManagement.Dal.Dal;
 using BlogManagement.Interface;
 using FreeSql;
+using Microsoft.AspNetCore.Http;
 using Swashbuckle.AspNetCore.Filters;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using HttpContext = BlogManagement.Core.HttpContext;
 
 namespace BlogManagement
 {
@@ -38,6 +41,12 @@ namespace BlogManagement
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton(new Appsettings(Configuration));
+            services.AddSingleton<BlogActionFilter>();
+            services.AddScoped(typeof(IUser), typeof(UserDal));
+            services.AddSingleton(typeof(ILog), typeof(LogDal));
+
+
             services.AddControllers(option =>
             {
                 option.Filters.Add<BlogExceptionFilter>();
@@ -50,8 +59,7 @@ namespace BlogManagement
                 options.SerializerSettings.Converters.Add(new UnixTimeStampConverter());
             });
 
-            services.AddSingleton<BlogActionFilter>();
-            services.AddScoped(typeof(IUser), typeof(UserDal));
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             #region øÁ”Ú
 
@@ -69,7 +77,7 @@ namespace BlogManagement
             JWTTokenOptions jwtTokenOptions = new JWTTokenOptions();
             services.Configure<JWTTokenOptions>(this.Configuration.GetSection("JWTToken"));
             jwtTokenOptions = this.Configuration.GetSection("JWTToken").Get<JWTTokenOptions>();
-            //Configuration.Bind("JWTToken", jwtTokenOptions);
+            //configuration.Bind("JWTToken", jwtTokenOptions);
             services.AddSingleton<JWTTokenOptions>(jwtTokenOptions);
             
             services.AddAuthentication(option =>
@@ -161,6 +169,8 @@ namespace BlogManagement
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            HttpContext.Configure(app.ApplicationServices.GetRequiredService<IHttpContextAccessor>());
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BlogManagement.Core.Redis.Service
+namespace BlogManagement.Core
 {
     /// <summary>
     /// Set：用哈希表来保持字符串的唯一性，没有先后顺序，存储一些集合性的数据

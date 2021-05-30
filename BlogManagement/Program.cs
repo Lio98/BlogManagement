@@ -85,7 +85,7 @@ namespace BlogManagement
                 //完全使用配置文件
                 //.UseSerilog((context, configure) =>
                 //{
-                //    configure.ReadFrom.Configuration(context.Configuration);
+                //    configure.ReadFrom.configuration(context.configuration);
                 //});
 
         public static string GetIp()

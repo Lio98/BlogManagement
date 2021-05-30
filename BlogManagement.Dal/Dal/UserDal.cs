@@ -5,7 +5,6 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using BlogManagement.Core;
-using BlogManagement.Core.Redis.Service;
 using BlogManagement.Interface;
 
 namespace BlogManagement.Dal
@@ -21,7 +20,7 @@ namespace BlogManagement.Dal
         /// <returns></returns>
         public bool UserLogin(string account, string password, out T_Sys_User userInfo)
         {
-            string encryptPassword = Encrypt.MD5Encrypt(password);
+            string encryptPassword = EncryptHelper.MD5Encrypt(password);
             userInfo = Db.Select<T_Sys_User>().Where(i =>
                     i.Account == account
                     && i.Password.Equals(encryptPassword, StringComparison.CurrentCultureIgnoreCase)
@@ -86,7 +85,7 @@ namespace BlogManagement.Dal
             }
 
             //密码MD5加密
-            user.Password = Encrypt.MD5Encrypt(user.Password);
+            user.Password = EncryptHelper.MD5Encrypt(user.Password);
             user.CreateTime = DateTime.Now;
             user.UpdateTime = DateTime.Now;
             long id = Db.Insert<T_Sys_User>(user).ExecuteIdentity();
