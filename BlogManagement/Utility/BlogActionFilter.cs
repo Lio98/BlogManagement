@@ -7,6 +7,8 @@ using BlogManagement.Core;
 using BlogManagement.Interface;
 using BlogManagement.Model;
 using BlogManagement.Model.Enum;
+using BlogManagement.Model.Model;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Serilog.Core;
 using Newtonsoft.Json;
@@ -38,21 +40,16 @@ namespace BlogManagement.Utility
         public void OnActionExecuted(ActionExecutedContext context)
         {
             var httpResponse = context.HttpContext.Response;
-            var responseValue = (context.Result != null ? JsonConvert.SerializeObject(context.Result) : null);
+            var returnResult = context.Result as JsonResult;
+            var responseValue = (returnResult != null ? JsonConvert.SerializeObject(returnResult.Value) : null);
             _logger.LogInformation($"调用 {context.HttpContext.Request.Path}接口结束, 状态码是：{httpResponse.StatusCode}, 执行结果是：{responseValue}");
 
             OperationType operation = OperationType.搜索;
             OperationLogType operationLogType = OperationLogType.操作日志;
-            if (context.HttpContext.Request.Path.Equals("/api/Login/Login"))
-            {
-                return;
-            }
-            else if (context.HttpContext.Request.Path.Equals("/api/Login/Logout"))
-            {
-                operation = OperationType.退出;
-                operationLogType = OperationLogType.登录日志;
-            }
 
+            
+
+            
             switch (context.HttpContext.Request.Method.ToUpper())
             {
                 case "GET":
@@ -70,8 +67,25 @@ namespace BlogManagement.Utility
                 default:
                     break;
             }
+
             var userProvider = new UserProvider();
             var userInfo = userProvider.Get();
+            if (context.HttpContext.Request.Path.Equals("/api/Login/Login"))
+            {
+                operation = OperationType.登录;
+                operationLogType = OperationLogType.登录日志;
+                if (returnResult != null)
+                {
+                    string token = (returnResult.Value as ReturnResultModel)?.Data;
+                    if (token.IsNullOrEmpty()) return;
+                    userInfo = userProvider.Get("Bearer " + token);
+                }
+            }
+            else if (context.HttpContext.Request.Path.Equals("/api/Login/Logout"))
+            {
+                operation = OperationType.退出;
+                operationLogType = OperationLogType.登录日志;
+            }
 
             if (userInfo != null)
             {

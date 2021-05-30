@@ -66,18 +66,7 @@ namespace BlogManagement.Controllers
                 service.Set<T_Sys_User>("Bearer "+token, userInfo);
             }
 
-            #region 记录登录日志
-            T_Sys_Logs logInfo = new T_Sys_Logs()
-            {
-                Operation = OperationType.登录.EnumIntToString(),
-                Operator = userInfo.Id,
-                Type = OperationLogType.登录日志.EnumIntToString(),
-                ResponseCode = 200,
-                Content = $"用户[{userInfo.Account}]登录成功！时间：{DateTime.Now}"
-            };
-            ILog logService = new LogDal();
-            logService.AddLogsInfo(logInfo); 
-            #endregion
+            
 
             return new JsonResult(new ReturnResultModel()
             {
