@@ -10,6 +10,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using BlogManagement.Core;
 using BlogManagement.Dal;
+using BlogManagement.Dal.Dal;
 using BlogManagement.Interface;
 using BlogManagement.Model;
 using BlogManagement.Model.Model;
@@ -26,7 +27,7 @@ namespace BlogManagement.Controllers
     [ApiController]
     [Authorize]
     [ServiceFilter(typeof(BlogActionFilter))]
-    public class LoginController : BlogControllerBase
+    public class LoginController : ControllerBase
     {
         private JWTTokenOptions _jwtTokenOptions = null;
         private IUser _user = null;
@@ -47,8 +48,7 @@ namespace BlogManagement.Controllers
         [HttpGet("login")]
         public IActionResult Login(string account, string password)
         {
-            T_Sys_User userInfo = new T_Sys_User();
-            var isExist = _user.UserLogin(account, password,out userInfo);
+            var isExist = _user.UserLogin(account, password,out var userInfo);
             //用户不存在
             if (!isExist)
             {
@@ -61,15 +61,13 @@ namespace BlogManagement.Controllers
             }
 
             var token = JWTTokenHelper.JwtEncrypt(new TokenModelJwt() { UserId=userInfo.Id,Level=""} ,this._jwtTokenOptions);
-            logInUserInfo = userInfo;
-            T_Sys_Logs logInfo = new T_Sys_Logs()
+            using (RedisStringService service=new RedisStringService())
             {
-                Operation = OperationType.登录.EnumIntToString(),
-                Operator = userInfo.Id,
-                Type = SysLogType.登录日志.EnumIntToString(),
-                Content = $"用户[{userInfo.Account}]登录成功！时间：{DateTime.Now}"
-            };
-            base.AddOperationLogs(logInfo);
+                service.Set<T_Sys_User>("Bearer "+token, userInfo);
+            }
+
+            
+
             return new JsonResult(new ReturnResultModel()
             {
                 StatusCode = 200,

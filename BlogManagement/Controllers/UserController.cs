@@ -22,7 +22,7 @@ namespace BlogManagement.Controllers
     [ApiController]
     [Authorize]
     [ServiceFilter(typeof(BlogActionFilter))]
-    public class UserController : BlogControllerBase
+    public class UserController : ControllerBase
     {
         private IUser _user = null;
 
@@ -89,14 +89,6 @@ namespace BlogManagement.Controllers
 
             if (_user.AddUserInfo(userInfo, out string msg))
             {
-                T_Sys_Logs logInfo = new T_Sys_Logs()
-                {
-                    Operation = OperationType.新增.EnumIntToString(),
-                    Operator = logInUserInfo.Id,
-                    Type = SysLogType.操作日志.EnumIntToString(),
-                    Content = $"用户[{logInUserInfo.Name}]新增一条用户信息成功！新增详细信息：{JsonConvert.SerializeObject(userInfo)}。时间：{DateTime.Now}"
-                };
-                base.AddOperationLogs(logInfo);
                 return new JsonResult(new ReturnResultModel()
                 {
                     StatusCode = 200,
@@ -112,6 +104,6 @@ namespace BlogManagement.Controllers
             });
         }
 
-        
+
     }
 }

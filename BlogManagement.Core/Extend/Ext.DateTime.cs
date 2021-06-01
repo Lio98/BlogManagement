@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BlogManagement.Core.Extend
+namespace BlogManagement.Core
 {
     public static partial class Ext
     {

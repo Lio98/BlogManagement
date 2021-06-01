@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace BlogManagement.Core.Redis.Service
+namespace BlogManagement.Core
 {
     /// <summary>
     /// RedisBase类，是redis操作的基类，继承自IDisposable接口，主要用于释放内存

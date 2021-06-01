@@ -26,7 +26,7 @@ namespace BlogManagement.Dal
             if (!ConnectionPool.ContainsKey(dbType))
             {
                 var freeSql = new FreeSql.FreeSqlBuilder()
-                    .UseConnectionString(enumDbtype, AppConfig.ConnectionString())
+                    .UseConnectionString(enumDbtype, ConfigurationHelper.GetDbConnection("ConnectionStrings"))
                     .UseAutoSyncStructure(false)   //是否根据实体修改数据库， Code-First
                     .UseMonitorCommand(
                         cmd =>

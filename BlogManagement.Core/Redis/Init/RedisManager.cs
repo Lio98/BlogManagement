@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using ServiceStack.Redis;
 
-namespace BlogManagement.Core.Redis
+namespace BlogManagement.Core
 {
     /// <summary>
     /// Redis管理中心

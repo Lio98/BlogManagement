@@ -1,18 +1,30 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="aliyun-net-sdk-core" Version="1.5.10" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="FreeSpire.Office" Version="4.3.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="NPOI" Version="2.5.3" />
+    <PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
     <PackageReference Include="ServiceStack.Redis" Version="5.11.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BlogManagement.Model\BlogManagement.Model.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Aspose.Words">
+      <HintPath>..\lib\Aspose.Words.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

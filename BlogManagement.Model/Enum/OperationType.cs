@@ -6,7 +6,7 @@ namespace BlogManagement.Model.Enum
 {
     public enum OperationType : int
     {
-        查询 = 1,
+        搜索 = 1,
 
         新增 = 2,
 
