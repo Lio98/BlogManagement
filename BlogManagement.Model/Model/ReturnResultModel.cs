@@ -11,7 +11,7 @@ namespace BlogManagement.Model.Model
 
         public ReturnStatus Status { get; set; }
 
-        public string Data { get; set; }
+        public object Data { get; set; }
 
         public string Msg { get; set; }
 

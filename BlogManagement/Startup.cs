@@ -53,10 +53,11 @@ namespace BlogManagement
             })
             .AddNewtonsoftJson(options =>
             {
-                options.SerializerSettings.ContractResolver = new DefaultContractResolver();
-                options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
-                options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
-                options.SerializerSettings.Converters.Add(new UnixTimeStampConverter());
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();//使用驼峰
+                options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Local;
+                options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";//设置时间格式
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;//忽略循环引用
+                //options.SerializerSettings.Converters.Add(new UnixTimeStampConverter());
             });
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
