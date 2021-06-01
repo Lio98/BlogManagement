@@ -59,13 +59,13 @@ namespace BlogManagement.Controllers
                     Msg = "查询结果为空"
                 });
             }
-            return new JsonResult(new ReturnResultModel()
+            return new JsonResult(JsonConvert.SerializeObject(new ReturnResultModel()
             {
                 StatusCode = 200,
                 Status = ReturnStatus.Success,
-                Data = JsonConvert.SerializeObject(userInfo),
+                Data = userInfo,
                 Msg = ""
-            });
+            }));
         }
 
         /// <summary>
