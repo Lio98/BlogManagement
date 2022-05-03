@@ -8,7 +8,7 @@ namespace BlogManagement.Core
     public static class ConfigurationKey
     {
 
-        private static string SystemPath = Appsettings.app(new string[] { "JNPF_App", "SystemPath" });
+        private static string SystemPath = Appsettings.app(new string[] { "BlogManagement", "SystemPath" });
         /// <summary>
         /// 数据库驱动：EF、Dapper
         /// </summary>
@@ -41,7 +41,7 @@ namespace BlogManagement.Core
         {
             get
             {
-                return Appsettings.app(new string[] { "JNPF_App", "Redis", "ConnectionString" });
+                return Appsettings.app(new string[] { "BlogManagement", "Redis", "ConnectionString" });
             }
         }
         /// <summary>
