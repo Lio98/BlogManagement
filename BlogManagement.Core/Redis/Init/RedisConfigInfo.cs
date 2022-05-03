@@ -16,12 +16,12 @@ namespace BlogManagement.Core
         /// 
         /// 默认6379端口
         /// </summary>
-        public string WriteServerList = "106.15.94.246:6379";
+        public string WriteServerList = "localhost:6379";
         /// <summary>
         /// 可读的Redis链接地址
         /// format:ip1,ip2
         /// </summary>
-        public string ReadServerList = "106.15.94.246:6379";
+        public string ReadServerList = "localhost:6379";
         /// <summary>
         /// 最大写链接数
         /// </summary>
