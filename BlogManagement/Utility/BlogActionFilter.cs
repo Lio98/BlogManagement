@@ -78,7 +78,7 @@ namespace BlogManagement.Utility
                 operationLogType = OperationLogType.登录日志;
                 if (returnResult != null)
                 {
-                    string token = (returnResult.Value as ReturnResultModel)?.Data;
+                    string token = (returnResult.Value as ReturnResultModel)?.Data.ToString();
                     if (token.IsNullOrEmpty()) return;
                     userInfo = userProvider.Get("Bearer " + token);
                     content = $"用户[{userInfo?.Account}] {operation}系统, 输入的账号是 {userInfo?.Account},返回的数据是 {responseValue}";

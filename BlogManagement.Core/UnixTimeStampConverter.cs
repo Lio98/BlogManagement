@@ -46,7 +46,7 @@ namespace BlogManagement.Core
         /// <param name="writer"></param>
         /// <param name="value"></param>
         /// <param name="serializer"></param>
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
         {
             long seconds;
             if (value is DateTime dateTime)
@@ -78,13 +78,13 @@ namespace BlogManagement.Core
             date = date.AddSeconds(ticks);
             return date;
         }
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
         {
             long ticks;
-            if (value is DateTime)
+            if (value is DateTime time)
             {
                 var epoc = new DateTime(1970, 1, 1);
-                var delta = ((DateTime)value) - epoc;
+                var delta = time - epoc;
                 if (delta.TotalSeconds < 0)
                 {
                     throw new ArgumentOutOfRangeException("时间格式错误.1");

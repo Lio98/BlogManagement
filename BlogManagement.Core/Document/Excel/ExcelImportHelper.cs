@@ -19,9 +19,9 @@ namespace BlogManagement.Core
         /// </summary>   
         /// <param name="filePath">Excel文件全路径(服务器路径)</param>   
         /// <param name="SheetIndex">要获取数据的工作表序号(从0开始)</param>   
-        /// <param name="HeaderRowIndex">工作表标题行所在行号(从0开始)</param>   
+        /// <param name="headerRowIndex">工作表标题行所在行号(从0开始)</param>   
         /// <returns></returns>   
-        public static DataTable ToDataTable(string filePath, int SheetIndex = 0, int HeaderRowIndex = 0)
+        public static DataTable ToDataTable(string filePath, int SheetIndex = 0, int headerRowIndex = 0)
         {
             using (FileStream file = new FileStream(filePath, FileMode.Open, FileAccess.Read))
             {
@@ -35,23 +35,23 @@ namespace BlogManagement.Core
                     workbook = new XSSFWorkbook(file);
                 }
                 string SheetName = workbook.GetSheetName(SheetIndex);
-                return ToDataTable(workbook, SheetName, HeaderRowIndex);
+                return ToDataTable(workbook, SheetName, headerRowIndex);
             }
         }
         /// <summary>   
         /// 从Excel中获取数据到DataTable   
         /// </summary>   
         /// <param name="workbook">要处理的工作薄</param>   
-        /// <param name="SheetName">要获取数据的工作表名称</param>   
-        /// <param name="HeaderRowIndex">工作表标题行所在行号(从0开始)</param>   
+        /// <param name="sheetName">要获取数据的工作表名称</param>   
+        /// <param name="headerRowIndex">工作表标题行所在行号(从0开始)</param>   
         /// <returns></returns>   
-        public static DataTable ToDataTable(IWorkbook workbook, string SheetName, int HeaderRowIndex)
+        public static DataTable ToDataTable(IWorkbook workbook, string sheetName, int headerRowIndex)
         {
-            ISheet sheet = workbook.GetSheet(SheetName);
+            ISheet sheet = workbook.GetSheet(sheetName);
             DataTable table = new DataTable();
             try
             {
-                IRow headerRow = sheet.GetRow(HeaderRowIndex);
+                IRow headerRow = sheet.GetRow(headerRowIndex);
                 int cellCount = headerRow.LastCellNum;
 
                 for (int i = headerRow.FirstCellNum; i < cellCount; i++)

@@ -151,7 +151,7 @@ namespace BlogManagement.Core
             }
             catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
 
